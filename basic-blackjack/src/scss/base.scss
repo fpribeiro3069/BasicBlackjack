@@ -1,14 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Arima:wght@300&family=Poppins:wght@200;300&display=swap');
 
-html {
+html, body {
+    margin: 0;
     background: $bg-light-green;
     background: $main-gradient;
 
     font-family: 'Arima', sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1 {
     color: $white;
-    font-size: 3em;
+    font-size: 2em;
     font-weight: 600;
+    margin: 0;
 }
