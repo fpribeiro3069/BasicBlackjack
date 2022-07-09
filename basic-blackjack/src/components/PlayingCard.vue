@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <img class="unselectable" :src="getSvgPath" :alt="getCardText" :title="getTooltipText" />
+        <img class="unselectable" :src="getSvgPath" :alt="getCardText" :title="getCardText" />
     </div>
 </template>
 
@@ -47,16 +47,11 @@ export default {
             return require('@/assets/cards/' + currentRank + this.suit.charAt(0) + ".svg");
         },
         getCardText() {
+            if (this.flipped) {
+                return "Flipped card";
+            }
             return this.rank + " of " + this.suit;
         },
-        getTooltipText() {
-            if (this.flipped) {
-                return "";
-            }
-            else {
-                return this.rank + " of " + this.suit;
-            }
-        }
     }
 }
 </script>

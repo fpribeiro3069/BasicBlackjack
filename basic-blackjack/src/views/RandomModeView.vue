@@ -2,16 +2,16 @@
     <div class="random-mode">
         <div class="grid-container">
             <div class="grid-item-1">
-                <p>Mode: Random cards from the deck. Choose according to basic strategy.</p>
+                <p name="Mode description">Mode: Random cards from the deck. Choose according to basic strategy.</p>
             </div>
             <div class="grid-item-2">
                 <div class="dealer-cards">
-                    <playing-card rank="Ace" suit="Diamonds" flipped/>
-                    <playing-card rank="Jack" suit="Hearts" />
+                    <playing-card flipped/>
+                    <playing-card :rank="dealerCard.rank" :suit="dealerCard.suit" />
                 </div>
                 <div class="player-cards">
-                    <playing-card rank="Ace" suit="Hearts"/>
-                    <playing-card rank="3" suit="Hearts" />
+                    <playing-card :rank="playerCards[0].rank" :suit="playerCards[0].suit"/>
+                    <playing-card :rank="playerCards[1].rank" :suit="playerCards[1].suit" />
                 </div>
             </div>
             <div class="grid-item-3">
@@ -33,12 +33,20 @@
 import PlayingCard from '@/components/PlayingCard.vue'
 import BbButton from '@/components/BbButton.vue'
 
+import { generateRandomCard, generateRandomHand } from '@/Game';
+
 export default {
     name: 'random-mode',
     components: {
         PlayingCard,
         BbButton,
     },
+    data() {
+        let dealerCard = generateRandomCard();
+        let playerCards = generateRandomHand();
+
+        return { dealerCard, playerCards }
+    }
 }
 </script>
 
