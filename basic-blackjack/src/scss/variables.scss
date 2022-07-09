@@ -8,5 +8,8 @@ $highlight-green: rgb(106, 165, 169);
 $ultra-highlight-green: rgb(163, 210, 213);
 
 // Gradients
-
 $main-gradient: linear-gradient(194deg, $bg-light-green 0%, $bg-dark-green 51%);
+
+// Shadows
+$button-shadow: 5px 5px 20px -2px rgba(0,0,0,0.33);
+$button-hover-shadow: 5px 5px 20px -2px rgba(0,0,0,0.73);

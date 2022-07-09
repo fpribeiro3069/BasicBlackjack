@@ -1,7 +1,7 @@
 <template>
   <div id="app-content">
     <div class="nav">
-      <h1>Basic Blackjack</h1>
+      <h1 class="unselectable">Basic Blackjack</h1>
       <div class="nav-buttons">
         <router-link class="icons" to="/">
           <BootstrapIcon 
@@ -63,13 +63,16 @@ export default {
 </script>
 
 <style lang="scss">
-#app-content {
-}
 
 .router-link-active > svg {
   color: #e1e1e1;
   transition: all .5s;
   //border-bottom: solid 3px white;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
 }
 
 .nav-buttons {

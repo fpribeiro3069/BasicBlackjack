@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <img :src="getSvgPath" :alt="getCardText" />
+        <img class="unselectable" :src="getSvgPath" :alt="getCardText" :title="getTooltipText" />
     </div>
 </template>
 
@@ -48,6 +48,14 @@ export default {
         },
         getCardText() {
             return this.rank + " of " + this.suit;
+        },
+        getTooltipText() {
+            if (this.flipped) {
+                return "";
+            }
+            else {
+                return this.rank + " of " + this.suit;
+            }
         }
     }
 }
@@ -55,4 +63,13 @@ export default {
 
 <style lang="scss" scoped>
 
+.card > img {
+    height: 30vh;
+    max-height: 20rem;
+
+    box-shadow: $button-shadow;
+}
+.card {
+    margin: .5rem;
+}
 </style>
