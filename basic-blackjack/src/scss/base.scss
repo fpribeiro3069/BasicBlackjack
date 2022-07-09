@@ -4,12 +4,12 @@ html, body {
     margin: 0;
     background: $bg-light-green;
     background: $main-gradient;
-    height: 100%;
 
     font-family: 'Arima', sans-serif;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-height: 100%;
 }
 
 .unselectable {
