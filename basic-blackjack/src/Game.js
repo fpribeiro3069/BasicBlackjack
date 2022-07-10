@@ -42,7 +42,7 @@ export function generateRandomSoftHand() {
     let rank = Math.floor(Math.random() * Card.ranks.length);
     let secondCard = new Card(Card.ranks[rank], Card.suits[suit]);
 
-    while (secondCard.equals(ace)) {
+    while (secondCard.equals(ace) || secondCard.rank === 'Ace') {
         suit = Math.floor(Math.random() * Card.suits.length);
         rank = Math.floor(Math.random() * Card.ranks.length);
         secondCard = new Card(Card.ranks[rank], Card.suits[suit]);
@@ -85,15 +85,16 @@ export function checkDecision(playerCards, dealerCard, decision) {
     if (playerCards[0].rank === playerCards[1].rank) {
         if (checkSplitDecision(playerCards[0].rank, dealerCard) && decision === 'Split') {
             // player made the right choice
-            return true;
+            return [true, 'Split'];
         }
     }
     // Second, check if soft hand decision
     if (playerCards[0].rank === 'Ace' || playerCards[1].rank === 'Ace') {
-        if (checkSoftDecision(playerCards, dealerCard) === decision) {
-            return true;
+        const rightDecision = checkSoftDecision(playerCards, dealerCard);
+        if (rightDecision === decision) {
+            return [true, rightDecision];
         } else {
-            return false;
+            return [false, rightDecision];
         }
     } 
     // Finally, hard hands
@@ -102,10 +103,11 @@ export function checkDecision(playerCards, dealerCard, decision) {
         playerScore += playerCards[i].value();
     }
 
-    if (checkHardDecision(playerScore, dealerCard) === decision) {
-        return true;
+    const hardDecision = checkHardDecision(playerScore, dealerCard);
+    if (hardDecision === decision) {
+        return [true, hardDecision];
     } else {
-        return false;
+        return [false, hardDecision];
     }
 
     
