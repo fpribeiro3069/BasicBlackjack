@@ -1,5 +1,11 @@
 <template>
   <div id="app-content">
+
+    <about-modal
+      v-model="aboutModal"
+      @close="aboutModal = false"
+    />
+
     <div class="nav">
       <h1 class="unselectable">Basic Blackjack</h1>
       <div class="nav-buttons">
@@ -40,17 +46,27 @@
         <component :is="Component" />
       </transition>
     </router-view>
+    <div class="footer">
+      <button @click="aboutModal = true">About</button>
+    </div>
   </div>
 </template>
 
 <script>
 import BootstrapIcon from '@dvuckovic/vue3-bootstrap-icons';
+import AboutModal from './modals/AboutModal.vue';
 
 export default {
   name: 'App',
   components: {
-    BootstrapIcon
+    BootstrapIcon,
+    AboutModal,
   },
+  data() {
+    let aboutModal = false;
+
+    return { aboutModal }
+  },  
   computed: {
     isActive() {
       return this.$router.name === "random";
@@ -116,6 +132,17 @@ export default {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.footer {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-around;
+
+  & > button {
+    color: $white;
+    text-decoration: underline;
+  }
 }
 
 </style>

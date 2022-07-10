@@ -1,5 +1,18 @@
 <template>
     <div class="soft-mode-view">
+
+        <chart-modal 
+            v-model="chartVisibility"
+            @close="chartVisibility = false"
+        />
+
+        <answer-modal 
+            v-model="modalVisibility"
+            :isCorrect="answerCorrect" 
+            :correctAnswer="answer"
+            @close="modalVisibility = false"
+        />
+
         <div class="grid-container">
             <div class="grid-item-1">
                 <p>Mode: Only hands with Aces are shown to practice the decision making with soft hands.</p>
@@ -16,36 +29,65 @@
             </div>
             <div class="grid-item-3">
                 <div class="charts-container">
-                    <bb-button label="View Charts"></bb-button>
+                    <bb-button label="View Charts" @click="chartVisibility = true"></bb-button>
                 </div>
             </div>
         </div>
         <div class="buttons">
-            <bb-button label="Hit"></bb-button>
-            <bb-button label="Stand"></bb-button>
-            <bb-button label="Double"></bb-button>
-            <bb-button label="Split" :disabled="true"></bb-button>
+            <bb-button label="Hit" @click="evaluate('Hit')"></bb-button>
+            <bb-button label="Stand" @click="evaluate('Stand')"></bb-button>
+            <bb-button label="Double" @click="evaluate('Double')"></bb-button>
+            <bb-button label="Split" @click="evaluate('Split')"></bb-button>
         </div>
     </div>
 </template>
 
 <script>
-import PlayingCard from '@/components/PlayingCard.vue'
-import BbButton from '@/components/BbButton.vue'
+import PlayingCard from '@/components/PlayingCard.vue';
+import BbButton from '@/components/BbButton.vue';
+import AnswerModal from '@/modals/AnswerModal.vue';
+import ChartModal from '@/modals/ChartModal.vue';
 
-import { generateRandomCard, generateRandomSoftHand } from '@/Game';
+import { generateRandomCard, generateRandomSoftHand, checkPlayerBlackjack, checkDecision } from '@/Game';
 
 export default {
     name: 'soft-mode-view',
     components: {
         PlayingCard,
         BbButton,
+        AnswerModal,
+        ChartModal,
     },
     data() {
         let dealerCard = generateRandomCard();
         let playerCards = generateRandomSoftHand();
 
-        return { dealerCard, playerCards }
+        let modalVisibility = false;
+        let chartVisibility = false;
+        let answerCorrect = false;
+        let answer = "";
+
+        return { dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer  }
+    },
+    watch: {
+        playerCards(hand) {
+            if (checkPlayerBlackjack(hand)) {
+                this.playerCards = generateRandomSoftHand();
+            }
+        }
+    },
+    methods: {
+        evaluate(decision) {
+            const veredict = checkDecision(this.playerCards, this.dealerCard, decision);
+
+            this.modalVisibility = true;
+            this.answerCorrect = veredict[0];
+            this.answer = veredict[1];
+
+            // TODO: Change this generation for after the modal closes
+            this.dealerCard = generateRandomCard();
+            this.playerCards = generateRandomSoftHand();
+        }
     }
 }
 </script>
