@@ -21,10 +21,10 @@
             </div>
         </div>
         <div class="buttons">
-            <bb-button label="Hit"></bb-button>
-            <bb-button label="Stand"></bb-button>
-            <bb-button label="Double"></bb-button>
-            <bb-button label="Split" :disabled="true"></bb-button>
+            <bb-button label="Hit" @click="evaluate('Hit')"></bb-button>
+            <bb-button label="Stand" @click="evaluate('Stand')"></bb-button>
+            <bb-button label="Double" @click="evaluate('Double')"></bb-button>
+            <bb-button label="Split" @click="evaluate('Split')"></bb-button>
         </div>
     </div>
 </template>
@@ -33,7 +33,7 @@
 import PlayingCard from '@/components/PlayingCard.vue'
 import BbButton from '@/components/BbButton.vue'
 
-import { generateRandomCard, generateRandomHand } from '@/Game';
+import { generateRandomCard, generateRandomHand, checkDecision, checkPlayerBlackjack } from '@/Game';
 
 export default {
     name: 'random-mode',
@@ -46,6 +46,27 @@ export default {
         let playerCards = generateRandomHand();
 
         return { dealerCard, playerCards }
+    },
+    watch: {
+        playerCards(hand) {
+            if (checkPlayerBlackjack(hand)) {
+                this.playerCards = generateRandomCard();
+            }
+        }
+    },
+    methods: {
+        evaluate(decision) {
+            const veredict = checkDecision(this.playerCards, this.dealerCard, decision);
+
+            if (veredict) {
+                alert("Correct!");
+            } else {
+                alert("Wrong!");
+            }
+
+            this.dealerCard = generateRandomCard();
+            this.playerCards = generateRandomHand();
+        }
     }
 }
 </script>

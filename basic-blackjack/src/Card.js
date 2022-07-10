@@ -12,12 +12,12 @@ class Card {
     }
 
     value() {
-        let value = [parseInt(this.rank)];
+        let value = parseInt(this.rank);
         if (isNaN(value)) {
             if (this.rank === 'Ace') {
-                value = [1, 11];
+                value = 11;
             } else {
-                value = [10];
+                value = 10;
             }
         }
         return value;
