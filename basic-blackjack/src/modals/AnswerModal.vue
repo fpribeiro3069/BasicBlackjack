@@ -79,11 +79,11 @@ export default {
 }
 
 .modal__action {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  padding: 1rem 0 0;
+    position: absolute;
+    bottom: 1rem;
+    left: auto;
+    right: auto;
+    padding: 1rem 0 0;
 }
 
 </style>

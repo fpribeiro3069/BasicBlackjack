@@ -67,7 +67,10 @@ export default {
         let answerCorrect = false;
         let answer = "";
 
-        return { dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer }
+        let totalCount = 0;
+        let totalCorrectCount = 0;
+
+        return { dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer, totalCount, totalCorrectCount }
     },
     watch: {
         playerCards(hand) {
@@ -84,9 +87,33 @@ export default {
             this.answerCorrect = veredict[0];
             this.answer = veredict[1];
 
+            if (veredict[0]) {
+                this.totalCorrectCount += 1;
+            }
+            this.totalCount += 1;
+
+            
+
             // TODO: Change this generation for after the modal closes
             this.dealerCard = generateRandomCard();
             this.playerCards = generateRandomHand();
+        }
+    },
+    unmounted() {
+        const persistedTotalCount = parseInt(localStorage.getItem('totalCount'));
+
+        if (persistedTotalCount) {
+            localStorage.setItem('totalCount', persistedTotalCount + this.totalCount);
+        } else {
+            localStorage.setItem('totalCount', this.totalCount);
+        }
+
+        const persistedTotalCorrectCount = parseInt(localStorage.getItem('totalCorrectCount'));
+
+        if (persistedTotalCorrectCount) {
+            localStorage.setItem('totalCorrectCount', persistedTotalCorrectCount + this.totalCorrectCount);
+        } else {
+            localStorage.setItem('totalCorrectCount', this.totalCorrectCount);
         }
     }
 }

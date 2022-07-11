@@ -11,20 +11,19 @@ export default {
     props: {
         rank: {
             type: String,
-            required: true
+            required: false,
+            default: 'Ace'
         },
         suit: {
             type: String,
-            required: true
+            required: false,
+            default: 'Spades',
         },
         flipped: {
             type: Boolean,
             required: false,
             default: false
         }
-    },
-    data() {
-        return { }
     },
     computed: {
         getSvgPath() {

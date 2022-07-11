@@ -1,6 +1,14 @@
 <template>
   <div id="app-content">
 
+    <stats-modal
+      v-model="statsModal"
+      :totalCount="totalCount"
+      :totalCorrectCount="totalCorrectCount"
+      @close="statsModal = false"
+      @delete="deleteLocalStorage"
+    />
+
     <about-modal
       v-model="aboutModal"
       @close="aboutModal = false"
@@ -32,11 +40,13 @@
         </router-link>
         
         <div id="stats" class="icons">
-           <BootstrapIcon
-            icon="bar-chart-fill"
-            color="white"
-            size="2x"
-          />
+          <button @click="triggerStats">
+              <BootstrapIcon
+                icon="bar-chart-fill"
+                color="white"
+                size="2x"
+              />  
+          </button>
         </div>
         
       </div>
@@ -55,18 +65,56 @@
 <script>
 import BootstrapIcon from '@dvuckovic/vue3-bootstrap-icons';
 import AboutModal from './modals/AboutModal.vue';
+import StatsModal from './modals/StatsModal.vue';
 
 export default {
   name: 'App',
   components: {
     BootstrapIcon,
     AboutModal,
+    StatsModal,
   },
   data() {
     let aboutModal = false;
+    let statsModal = false;
 
-    return { aboutModal }
-  },  
+    let totalCount = localStorage.getItem('totalCount');
+    let totalCorrectCount = localStorage.getItem('totalCorrectCount');
+
+    if (!totalCount) {
+        totalCount = 0;
+    }
+
+    if (!totalCorrectCount) {
+        totalCorrectCount = 0;
+    }
+
+    totalCount = parseInt(totalCount);
+    totalCorrectCount = parseInt(totalCorrectCount);
+
+    return { aboutModal, statsModal, totalCount, totalCorrectCount }
+  }, 
+  methods: {
+    triggerStats() {
+      // TODO: Figure out a way to update local storage without having to switch modes or 
+      //       refreshing the page
+      this.totalCount = localStorage.getItem('totalCount');
+      this.totalCorrectCount = localStorage.getItem('totalCorrectCount');
+
+      if (!this.totalCount) {
+          this.totalCount = 0;
+      }
+
+      if (!this.totalCorrectCount) {
+          this.totalCorrectCount = 0;
+      }
+
+      this.statsModal = true;
+    },
+    deleteLocalStorage() {
+      localStorage.clear();
+    }
+  },
   computed: {
     isActive() {
       return this.$router.name === "random";
