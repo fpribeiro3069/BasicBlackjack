@@ -83,9 +83,12 @@ export function checkDecision(playerCards, dealerCard, decision) {
 
     // First check split decision
     if (playerCards[0].rank === playerCards[1].rank) {
-        if (checkSplitDecision(playerCards[0].rank, dealerCard) && decision === 'Split') {
+        const splitDecision = checkSplitDecision(playerCards[0].rank, dealerCard);
+        if (splitDecision && decision === 'Split') {
             // player made the right choice
             return [true, 'Split'];
+        } else if (splitDecision && decision !== 'Split') {
+            return [false, 'Split'];
         }
     }
     // Second, check if soft hand decision

@@ -48,6 +48,8 @@ import BbButton from '@/components/BbButton.vue';
 import AnswerModal from '@/modals/AnswerModal.vue';
 import ChartModal from '@/modals/ChartModal.vue';
 
+import { useStore } from 'vuex';
+
 import { generateRandomCard, generateRandomHand, checkDecision, checkPlayerBlackjack } from '@/Game';
 
 export default {
@@ -62,15 +64,14 @@ export default {
         let dealerCard = generateRandomCard();
         let playerCards = generateRandomHand();
 
+        const store = useStore();
+
         let modalVisibility = false;
         let chartVisibility = false;
         let answerCorrect = false;
         let answer = "";
 
-        let totalCount = 0;
-        let totalCorrectCount = 0;
-
-        return { dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer, totalCount, totalCorrectCount }
+        return { store, dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer }
     },
     watch: {
         playerCards(hand) {
@@ -88,32 +89,13 @@ export default {
             this.answer = veredict[1];
 
             if (veredict[0]) {
-                this.totalCorrectCount += 1;
+                this.store.commit('incrementTotalCorrectCount');
             }
-            this.totalCount += 1;
-
-            
+            this.store.commit('incrementTotalCount');
 
             // TODO: Change this generation for after the modal closes
             this.dealerCard = generateRandomCard();
             this.playerCards = generateRandomHand();
-        }
-    },
-    unmounted() {
-        const persistedTotalCount = parseInt(localStorage.getItem('totalCount'));
-
-        if (persistedTotalCount) {
-            localStorage.setItem('totalCount', persistedTotalCount + this.totalCount);
-        } else {
-            localStorage.setItem('totalCount', this.totalCount);
-        }
-
-        const persistedTotalCorrectCount = parseInt(localStorage.getItem('totalCorrectCount'));
-
-        if (persistedTotalCorrectCount) {
-            localStorage.setItem('totalCorrectCount', persistedTotalCorrectCount + this.totalCorrectCount);
-        } else {
-            localStorage.setItem('totalCorrectCount', this.totalCorrectCount);
         }
     }
 }

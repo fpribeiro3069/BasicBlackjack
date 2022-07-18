@@ -10,6 +10,13 @@
         </button>
         <h1 class="modal__title">Basic Strategy Charts</h1>
         <div class="modal__content">
+            <p>Column values represent the <b>dealer card</b> and 
+            Row values represent the <b>sum of the points</b> of your cards.</p>
+            <ul style="color: white">
+              <li><b>H</b> => Hit</li>
+              <li style="color: red;"><b>S</b> => Stand</li>
+              <li style="color: #81d41a;"><b>D</b> => Double Down</li>
+            </ul>
             <img src="../assets/charts/hard-hands.png" alt="Hard hands chart"/>
             <img src="../assets/charts/soft-hands.png" alt="Soft hands chart"/>
             <img src="../assets/charts/split.png" alt="Split decisison chart"/>
@@ -70,5 +77,12 @@ export default {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+}
+
+ul {
+  color: white;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 </style>

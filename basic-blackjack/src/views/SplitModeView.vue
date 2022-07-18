@@ -15,7 +15,7 @@
 
         <div class="grid-container">
             <div class="grid-item-1">
-                <p>Mode: Only hands doubles are shown to practice decision making for splitting.</p>
+                <p>Mode: Only hands with doubles are shown to practice decision making for splitting.</p>
             </div>
             <div class="grid-item-2">
                  <div class="dealer-cards">
@@ -49,6 +49,7 @@ import AnswerModal from '@/modals/AnswerModal.vue';
 import ChartModal from '@/modals/ChartModal.vue';
 
 import { generateRandomCard, generateRandomSplitHand, checkDecision } from '@/Game';
+import { useStore } from 'vuex';
 
 export default {
     name: 'split-mode-view',
@@ -62,12 +63,14 @@ export default {
         let dealerCard = generateRandomCard();
         let playerCards = generateRandomSplitHand();
 
+        const store = useStore();
+
         let modalVisibility = false;
         let chartVisibility = false;
         let answerCorrect = false;
         let answer = "";
 
-        return { dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer }
+        return { store, dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer }
     },
     methods: {
         evaluate(decision) {
@@ -76,6 +79,11 @@ export default {
             this.modalVisibility = true;
             this.answerCorrect = veredict[0];
             this.answer = veredict[1];
+
+            if (veredict[0]) {
+                this.store.commit('incrementTotalCorrectCount');
+            }
+            this.store.commit('incrementTotalCount');
 
             // TODO: Change this generation for after the modal closes
             this.dealerCard = generateRandomCard();

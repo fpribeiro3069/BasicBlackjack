@@ -3,10 +3,10 @@
 
     <stats-modal
       v-model="statsModal"
-      :totalCount="totalCount"
-      :totalCorrectCount="totalCorrectCount"
+      :totalCount="store.state.totalCount"
+      :totalCorrectCount="store.state.totalCorrectCount"
       @close="statsModal = false"
-      @delete="deleteLocalStorage"
+      @delete="deleteStats"
     />
 
     <about-modal
@@ -25,22 +25,24 @@
           />
         </router-link>
         <router-link class="icons" to="/soft">
-          <BootstrapIcon
+          <!-- <BootstrapIcon
             icon="shuffle"
             color="white"
             size="2x"
-          />
+          /> -->
+          <img class="icon" src="@/assets/icons/soft.svg" />
         </router-link>
         <router-link class="icons" to="/split">
-          <BootstrapIcon
+          <!-- <BootstrapIcon
             icon="shuffle"
             color="white"
             size="2x"
-          />
+          /> -->
+          <img class="icon" src="@/assets/icons/cards.png" />
         </router-link>
         
         <div id="stats" class="icons">
-          <button @click="triggerStats">
+          <button @click="statsModal = true">
               <BootstrapIcon
                 icon="bar-chart-fill"
                 color="white"
@@ -67,6 +69,8 @@ import BootstrapIcon from '@dvuckovic/vue3-bootstrap-icons';
 import AboutModal from './modals/AboutModal.vue';
 import StatsModal from './modals/StatsModal.vue';
 
+import { useStore } from 'vuex';
+
 export default {
   name: 'App',
   components: {
@@ -78,41 +82,13 @@ export default {
     let aboutModal = false;
     let statsModal = false;
 
-    let totalCount = localStorage.getItem('totalCount');
-    let totalCorrectCount = localStorage.getItem('totalCorrectCount');
+    const store = useStore();
 
-    if (!totalCount) {
-        totalCount = 0;
-    }
-
-    if (!totalCorrectCount) {
-        totalCorrectCount = 0;
-    }
-
-    totalCount = parseInt(totalCount);
-    totalCorrectCount = parseInt(totalCorrectCount);
-
-    return { aboutModal, statsModal, totalCount, totalCorrectCount }
-  }, 
+    return { store, aboutModal, statsModal }
+  },
   methods: {
-    triggerStats() {
-      // TODO: Figure out a way to update local storage without having to switch modes or 
-      //       refreshing the page
-      this.totalCount = localStorage.getItem('totalCount');
-      this.totalCorrectCount = localStorage.getItem('totalCorrectCount');
-
-      if (!this.totalCount) {
-          this.totalCount = 0;
-      }
-
-      if (!this.totalCorrectCount) {
-          this.totalCorrectCount = 0;
-      }
-
-      this.statsModal = true;
-    },
-    deleteLocalStorage() {
-      localStorage.clear();
+    deleteStats() {
+      this.store.commit('clearCounts');
     }
   },
   computed: {
@@ -191,6 +167,11 @@ export default {
     color: $white;
     text-decoration: underline;
   }
+}
+
+.icon {
+  width: 2rem;
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(268deg) brightness(105%) contrast(102%);
 }
 
 </style>

@@ -49,6 +49,7 @@ import AnswerModal from '@/modals/AnswerModal.vue';
 import ChartModal from '@/modals/ChartModal.vue';
 
 import { generateRandomCard, generateRandomSoftHand, checkPlayerBlackjack, checkDecision } from '@/Game';
+import { useStore } from 'vuex';
 
 export default {
     name: 'soft-mode-view',
@@ -62,12 +63,14 @@ export default {
         let dealerCard = generateRandomCard();
         let playerCards = generateRandomSoftHand();
 
+        const store = useStore();
+
         let modalVisibility = false;
         let chartVisibility = false;
         let answerCorrect = false;
         let answer = "";
 
-        return { dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer  }
+        return { store, dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer  }
     },
     watch: {
         playerCards(hand) {
@@ -83,6 +86,11 @@ export default {
             this.modalVisibility = true;
             this.answerCorrect = veredict[0];
             this.answer = veredict[1];
+
+            if (veredict[0]) {
+                this.store.commit('incrementTotalCorrectCount');
+            }
+            this.store.commit('incrementTotalCount');
 
             // TODO: Change this generation for after the modal closes
             this.dealerCard = generateRandomCard();
