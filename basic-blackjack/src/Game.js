@@ -86,6 +86,10 @@ export function checkPlayerBlackjack(playerCards) {
     return (playerCards[0].value() + playerCards[1].value()) === 21;
 }
 
+export function isSplitAllowed(playerCards) {
+    return playerCards[0].rank === playerCards[1].rank;
+}
+
 export function checkDecision(playerCards, dealerCard, decision) {
 
     // First check split decision

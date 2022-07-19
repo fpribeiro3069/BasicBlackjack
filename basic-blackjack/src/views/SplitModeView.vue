@@ -40,7 +40,7 @@
             <bb-button label="Hit" @click="evaluate('Hit')"></bb-button>
             <bb-button label="Stand" @click="evaluate('Stand')"></bb-button>
             <bb-button label="Double" @click="evaluate('Double')"></bb-button>
-            <bb-button label="Split" @click="evaluate('Split')"></bb-button>
+            <bb-button label="Split" :disabled="splitDisabled" @click="evaluate('Split')"></bb-button>
         </div>
     </div>
 </template>
@@ -51,7 +51,7 @@ import BbButton from '@/components/BbButton.vue';
 import AnswerModal from '@/modals/AnswerModal.vue';
 import ChartModal from '@/modals/ChartModal.vue';
 
-import { generateRandomCard, generateRandomSplitHand, checkDecision } from '@/Game';
+import { generateRandomCard, generateRandomSplitHand, checkDecision, isSplitAllowed } from '@/Game';
 import { useStore } from 'vuex';
 
 export default {
@@ -111,6 +111,11 @@ export default {
                 return sum + ' or ' + secondSum;
             }
             return sum;
+        }
+    },
+    computed: {
+        splitDisabled() {
+            return !isSplitAllowed(this.playerCards);
         }
     }
 }
