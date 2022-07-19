@@ -1,6 +1,9 @@
 <template>
     <div class="card">
-        <img class="unselectable" :src="getSvgPath" :alt="getCardText" :title="getCardText" />
+        <img class="size unselectable"
+            :src="getSvgPath" 
+            :alt="getCardText" 
+            :title="getCardText" />
     </div>
 </template>
 
@@ -50,7 +53,7 @@ export default {
                 return "Flipped card";
             }
             return this.rank + " of " + this.suit;
-        },
+        }
     }
 }
 </script>
@@ -58,12 +61,22 @@ export default {
 <style lang="scss" scoped>
 
 .card > img {
-    height: 30vh;
-    max-height: 20rem;
+    //height: 30vh;
+    //max-height: 20rem;
 
     box-shadow: $button-shadow;
 }
 .card {
     margin: .5rem;
+}
+
+.size {
+    height: 190px;
+}
+
+@media only screen and (max-width: 750px) {
+    .size {
+        height: 150px;
+    }
 }
 </style>

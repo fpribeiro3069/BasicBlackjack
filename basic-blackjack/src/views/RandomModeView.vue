@@ -124,7 +124,7 @@ export default {
 
 <style lang="scss" scoped>
 .random-mode {
-    max-width: 1080px; 
+    max-width: 750px; 
 	margin: 0 auto !important; 
 	float: none !important;
 
@@ -168,8 +168,46 @@ export default {
 }
 
 .charts-container {
-    width: 50%;
+    width: 60%;
     float: right;
 
+}
+
+@media only screen and (max-width: 750px) {
+
+    .random-mode {
+        max-width: 740px; 
+        margin: 0 auto !important; 
+        float: none !important;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .grid-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        margin: 1rem;
+    }
+
+    .grid-item-1 {
+        order: 1;
+    }
+
+    .grid-item-2 {
+        order: 3;
+    }
+
+    .grid-item-3 {
+        display: flex;
+        justify-content: center;
+        order: 1;
+    }
+
+    .charts-container {
+        width: 10rem;
+    }
 }
 </style>

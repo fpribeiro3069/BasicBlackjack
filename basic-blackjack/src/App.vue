@@ -49,8 +49,24 @@
                 size="2x"
               />  
           </button>
-        </div>
-        
+        </div>  
+      </div>
+
+      <div class="nav-buttons-mobile">
+        <select v-model="currentRoute">
+          <option value="random">Random</option>
+          <option value="soft">Soft</option>
+          <option value="split">Split</option>
+        </select>
+        <div id="stats" class="icons">
+          <button @click="statsModal = true">
+              <BootstrapIcon
+                icon="bar-chart-fill"
+                color="white"
+                size="1x"
+              />  
+          </button>
+        </div>  
       </div>
     </div>
     <router-view v-slot="{ Component }">
@@ -81,10 +97,23 @@ export default {
   data() {
     let aboutModal = false;
     let statsModal = false;
+    let currentRoute = 'random';
 
     const store = useStore();
 
-    return { store, aboutModal, statsModal }
+    return { store, aboutModal, statsModal, currentRoute }
+  },
+  watch: {
+    $route: {
+      deep: true,
+      handler(to) {
+        this.currentRoute = to.name;
+      }
+    },
+    currentRoute(newName) {
+      if (newName)
+        this.$router.replace({name: newName});
+    }
   },
   methods: {
     deleteStats() {
@@ -94,7 +123,7 @@ export default {
   computed: {
     isActive() {
       return this.$router.name === "random";
-    }
+    },
   },
 }
 </script>
@@ -105,6 +134,10 @@ export default {
   color: #e1e1e1;
   transition: all .5s;
   //border-bottom: solid 3px white;
+}
+
+.nav-buttons-mobile {
+  display: none;
 }
 
 .nav {
@@ -143,7 +176,7 @@ export default {
   justify-content: space-between;
 
   // Padding on the sides
-  max-width: 1080px; 
+  max-width: 750px; 
 	margin: 0 auto !important; 
 	float: none !important;
 }
@@ -172,6 +205,32 @@ export default {
 .icon {
   width: 2rem;
   filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(268deg) brightness(105%) contrast(102%);
+}
+
+@media only screen and (max-width: 750px) {
+  .nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    // Padding on the sides
+    max-width: 740px; 
+    //margin: 0 auto !important;
+    margin: 0rem 1rem 0rem 1rem !important;
+    float: none !important;
+  }
+
+  .nav-buttons {
+    display: none;
+  }
+
+  .nav-buttons-mobile {
+    display: flex;
+  }
+
+  #stats {
+    margin-left: 0;
+  }
 }
 
 </style>
