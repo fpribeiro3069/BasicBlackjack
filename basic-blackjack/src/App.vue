@@ -30,7 +30,7 @@
             color="white"
             size="2x"
           /> -->
-          <img class="icon" src="@/assets/icons/soft.svg" />
+          <img class="icon unselectable" src="@/assets/icons/soft.svg" />
         </router-link>
         <router-link class="icons" to="/split">
           <!-- <BootstrapIcon
@@ -38,7 +38,7 @@
             color="white"
             size="2x"
           /> -->
-          <img class="icon" src="@/assets/icons/cards.png" />
+          <img class="icon unselectable" src="@/assets/icons/cards.png" />
         </router-link>
         
         <div id="stats" class="icons">

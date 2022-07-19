@@ -51,7 +51,7 @@ import BbButton from '@/components/BbButton.vue';
 import AnswerModal from '@/modals/AnswerModal.vue';
 import ChartModal from '@/modals/ChartModal.vue';
 
-import { generateRandomCard, generateRandomSplitHand, checkDecision } from '@/Game';
+import { generateRandomCard, generateRandomSplitHand, checkDecision, checkPlayerBlackjack } from '@/Game';
 import { useStore } from 'vuex';
 
 export default {
@@ -74,6 +74,13 @@ export default {
         let answer = "";
 
         return { store, dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer }
+    },
+    watch: {
+        playerCards(hand) {
+            if (checkPlayerBlackjack(hand)) {
+                this.playerCards = generateRandomSplitHand();
+            }
+        }
     },
     methods: {
         evaluate(decision) {

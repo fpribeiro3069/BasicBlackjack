@@ -24,7 +24,6 @@ class Card {
     }
 
     valueArray() {
-        console.log("Processing value for " + this.rank);
         let value = [parseInt(this.rank)];
         if (isNaN(value)) {
             if (this.rank === 'Ace') {
@@ -33,7 +32,6 @@ class Card {
                 value = [10];
             }
         }
-        console.log("Value is -> " + value.toString())
         return value;
     }
 
