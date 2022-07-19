@@ -5,17 +5,17 @@
                 class="modal__close"
                 icon="x"
                 color="white"
-                size="4x"
+                size="2x"
             />
         </button>
         <h1 class="modal__title">Statistics</h1>
         <div class="modal__content">
             <div class="entry">
-                <p>Total hands</p>
+                <p>Hands played</p>
                 <p>{{ totalCount }}</p>
             </div>
             <div class="entry">
-                <p>Total correct hands</p>
+                <p>Correct hands</p>
                 <p>{{ totalCorrectCount }}</p>
             </div>
             <div class="entry">
@@ -102,12 +102,11 @@ export default {
   display: flex;
   flex-direction: column;
   max-height: 90%;
-  margin: 0 1rem;
+  min-width: 60%;
+  max-width: 95%;
   padding: 1rem;
   border-radius: 0.25rem;
   background: $dark-green;
-
-  min-width: 40vh;
 }
 
 .modal__content {

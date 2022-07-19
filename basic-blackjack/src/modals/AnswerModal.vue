@@ -68,22 +68,13 @@ export default {
     border-radius: 0.25rem;
     background: $dark-green;
 
-    min-height: 10rem;
-    min-width: 20rem;
+    max-width: 95%;
 }
 
 .answer-modal {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.modal__action {
-    position: absolute;
-    bottom: 1rem;
-    left: auto;
-    right: auto;
-    padding: 1rem 0 0;
 }
 
 </style>

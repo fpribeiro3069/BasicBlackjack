@@ -5,7 +5,7 @@
                 class="modal__close"
                 icon="x"
                 color="white"
-                size="4x"
+                size="2x"
             />
         </button>
         <h1 class="modal__title">Basic Strategy Charts</h1>
@@ -53,8 +53,8 @@ export default {
   display: flex;
   flex-direction: column;
   max-height: 90%;
-  margin: 0 1rem;
-  padding: 1rem;
+  max-width: 95%;
+  padding: 0.3rem;
   border-radius: 0.25rem;
   background: $dark-green;
 }
@@ -69,7 +69,7 @@ export default {
 }
 
 .modal__content > img {
-    margin: .5rem;
+    margin-top: .5rem;
     border-radius: 5px;
 }
 

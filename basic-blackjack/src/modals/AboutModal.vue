@@ -5,7 +5,7 @@
                 class="modal__close"
                 icon="x"
                 color="white"
-                size="4x"
+                size="2x"
             />
         </button>
         <div class="answer-modal">
@@ -45,8 +45,7 @@ export default {
     border-radius: 0.25rem;
     background: $dark-green;
 
-    min-height: 10rem;
-    min-width: 20rem;
+    max-width: 95%;
 }
 
 .answer-modal {
