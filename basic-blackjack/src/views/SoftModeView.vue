@@ -22,6 +22,9 @@
                     <playing-card flipped/>
                     <playing-card :rank="dealerCard.rank" :suit="dealerCard.suit" />
                 </div>
+                <div class="card-count">
+                    <h2>Your points: {{ getCardPoints() }}</h2>
+                </div>
                 <div class="player-cards">
                     <playing-card :rank="playerCards[0].rank" :suit="playerCards[0].suit"/>
                     <playing-card :rank="playerCards[1].rank" :suit="playerCards[1].suit" />
@@ -95,6 +98,26 @@ export default {
             // TODO: Change this generation for after the modal closes
             this.dealerCard = generateRandomCard();
             this.playerCards = generateRandomSoftHand();
+        },
+        getCardPoints() {
+            let sum = 0;
+            let secondSum = 0;
+
+            for(let i = 0; i < this.playerCards.length; i++) {
+                let scoreArr = this.playerCards[i].valueArray();
+                if (scoreArr.length === 1) {
+                    sum += scoreArr[0];
+                    secondSum += scoreArr[0];
+                } else {
+                    sum += scoreArr[0];
+                    secondSum += scoreArr[1];
+                }
+            }
+
+            if (sum !== secondSum) {
+                return sum + ' or ' + secondSum;
+            }
+            return sum;
         }
     }
 }
@@ -126,12 +149,17 @@ export default {
     justify-content: center;
 }
 
+.card-count {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 1.5rem;
+}
+
 .player-cards {
     display: flex;
     flex-direction: row;
     justify-content: center;
-
-    margin-top: 4rem;
 }
 
 .buttons {

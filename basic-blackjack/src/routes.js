@@ -1,8 +1,10 @@
+import { createWebHistory, createRouter } from "vue-router";
+
 import RandomModeView from '@/views/RandomModeView.vue';
 import SoftModeView from '@/views/SoftModeView.vue';
 import SplitModeView from '@/views/SplitModeView.vue';
 
-export default [
+const routes = [
     {
         name: 'random',
         path: "/",
@@ -19,3 +21,10 @@ export default [
         component: SplitModeView,
     }
 ]
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+  })
+
+export default router;

@@ -23,6 +23,20 @@ class Card {
         return value;
     }
 
+    valueArray() {
+        console.log("Processing value for " + this.rank);
+        let value = [parseInt(this.rank)];
+        if (isNaN(value)) {
+            if (this.rank === 'Ace') {
+                value = [1, 11];
+            } else {
+                value = [10];
+            }
+        }
+        console.log("Value is -> " + value.toString())
+        return value;
+    }
+
     equals(card) {
         return this.rank === card.rank && this.suit === card.suit;
     }
