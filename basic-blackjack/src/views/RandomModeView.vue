@@ -53,7 +53,7 @@ import ChartModal from '@/modals/ChartModal.vue';
 
 import { useStore } from 'vuex';
 
-import { generateRandomCard, generateRandomHand, checkDecision, checkPlayerBlackjack } from '@/Game';
+import { generateRandomCard, generateRandomHand, checkDecision } from '@/Game';
 
 export default {
     name: 'random-mode',
@@ -75,13 +75,6 @@ export default {
         let answer = "";
 
         return { store, dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer }
-    },
-    watch: {
-        playerCards(hand) {
-            if (checkPlayerBlackjack(hand)) {
-                this.playerCards = generateRandomHand();
-            }
-        }
     },
     methods: {
         evaluate(decision) {

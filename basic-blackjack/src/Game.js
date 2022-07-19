@@ -33,50 +33,57 @@ export function generateRandomHand() {
 }
 
 export function generateRandomSoftHand() {
-    let hand = [];
+    let hand;
 
-    let suit = Math.floor(Math.random() * Card.suits.length);
-    let ace = new Card('Ace', Card.suits[suit]);
+    do {
+        hand = [];
+        let suit = Math.floor(Math.random() * Card.suits.length);
+        let ace = new Card('Ace', Card.suits[suit]);
 
-    suit = Math.floor(Math.random() * Card.suits.length);
-    let rank = Math.floor(Math.random() * Card.ranks.length);
-    let secondCard = new Card(Card.ranks[rank], Card.suits[suit]);
-
-    while (secondCard.equals(ace) || secondCard.rank === 'Ace') {
         suit = Math.floor(Math.random() * Card.suits.length);
-        rank = Math.floor(Math.random() * Card.ranks.length);
-        secondCard = new Card(Card.ranks[rank], Card.suits[suit]);
-    }
+        let rank = Math.floor(Math.random() * Card.ranks.length);
+        let secondCard = new Card(Card.ranks[rank], Card.suits[suit]);
 
-    hand.push(ace);
-    hand.push(secondCard);
+        while (secondCard.equals(ace) || secondCard.rank === 'Ace') {
+            suit = Math.floor(Math.random() * Card.suits.length);
+            rank = Math.floor(Math.random() * Card.ranks.length);
+            secondCard = new Card(Card.ranks[rank], Card.suits[suit]);
+        }
+
+        hand.push(ace);
+        hand.push(secondCard);
+    } while (checkPlayerBlackjack(hand))
 
     return hand;
 }
 
 export function generateRandomSplitHand() {
-    let hand = [];
+    let hand;
 
-    let rank = Math.floor(Math.random() * Card.ranks.length);
-    let suit = Math.floor(Math.random() * Card.suits.length);
-    let firstCard = new Card(Card.ranks[rank], Card.suits[suit]);
+    do {
+        hand = [];
+        let rank = Math.floor(Math.random() * Card.ranks.length);
+        let suit = Math.floor(Math.random() * Card.suits.length);
+        let firstCard = new Card(Card.ranks[rank], Card.suits[suit]);
 
-    let secondSuit = Math.floor(Math.random() * Card.suits.length);
+        let secondSuit = Math.floor(Math.random() * Card.suits.length);
 
-    while(secondSuit === suit) {
-        secondSuit = Math.floor(Math.random() * Card.suits.length);
-    }
+        while(secondSuit === suit) {
+            secondSuit = Math.floor(Math.random() * Card.suits.length);
+        }
 
-    let secondCard = new Card(Card.ranks[rank], Card.suits[secondSuit]);
+        let secondCard = new Card(Card.ranks[rank], Card.suits[secondSuit]);
 
-    hand.push(firstCard);
-    hand.push(secondCard);
+        hand.push(firstCard);
+        hand.push(secondCard);
+
+    } while (checkPlayerBlackjack(hand))
 
     return hand;
 }
 
 export function checkPlayerBlackjack(playerCards) {
-    return playerCards[0].value() + playerCards[1].value() === 21;
+    return (playerCards[0].value() + playerCards[1].value()) === 21;
 }
 
 export function checkDecision(playerCards, dealerCard, decision) {
