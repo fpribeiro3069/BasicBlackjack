@@ -23,7 +23,12 @@
                     <playing-card :rank="dealerCard.rank" :suit="dealerCard.suit" />
                 </div>
                 <div class="card-count">
-                    <h2>Your points: {{ getCardPoints() }}</h2>
+                    <h2 
+                        @click="isBlurred = !isBlurred" 
+                        :class="isBlurred ? 'blur' : ''"
+                        title="Click to hide">
+                        Your points: {{ getCardPoints() }}
+                    </h2>
                 </div>
                 <div class="player-cards">
                     <playing-card :rank="playerCards[0].rank" :suit="playerCards[0].suit"/>
@@ -33,6 +38,7 @@
             <div class="grid-item-3">
                 <div class="charts-container">
                     <bb-button label="View Charts" @click="chartVisibility = true"></bb-button>
+                    <p>Correct answers: {{ localTotalCorrectCount }}/{{ localTotalCount }}</p>
                 </div>
             </div>
         </div>
@@ -68,25 +74,39 @@ export default {
 
         const store = useStore();
 
+        let localTotalCount = 0;
+        let localTotalCorrectCount = 0;
+
+
         let modalVisibility = false;
         let chartVisibility = false;
         let answerCorrect = false;
         let answer = "";
+                let isBlurred = false;
 
-        return { store, dealerCard, playerCards, modalVisibility, chartVisibility, answerCorrect, answer }
+        return { 
+            store, dealerCard, playerCards, modalVisibility, chartVisibility, 
+            answerCorrect, answer, localTotalCorrectCount, localTotalCount,
+            isBlurred
+        }
     },
     methods: {
         evaluate(decision) {
             const veredict = checkDecision(this.playerCards, this.dealerCard, decision);
 
-            this.modalVisibility = true;
             this.answerCorrect = veredict[0];
             this.answer = veredict[1];
 
+            if (!veredict[0]) {
+                this.modalVisibility = true;
+            }
+
             if (veredict[0]) {
                 this.store.commit('incrementTotalCorrectCount');
+                this.localTotalCorrectCount++;
             }
             this.store.commit('incrementTotalCount');
+            this.localTotalCount++;
 
             // TODO: Change this generation for after the modal closes
             this.dealerCard = generateRandomCard();
@@ -167,9 +187,14 @@ export default {
 }
 
 .charts-container {
-    width: 50%;
+    width: 60%;
     float: right;
 
+    & p {
+        text-align: center;
+        font-size: 1.03em;
+        font-weight: bold;
+    }
 }
 
 @media only screen and (max-width: 750px) {

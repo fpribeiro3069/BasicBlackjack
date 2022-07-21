@@ -14,7 +14,7 @@
             Row values represent the <b>sum of the points</b> of your cards.</p>
             <ul style="color: white">
               <li><b>H</b> => Hit</li>
-              <li style="color: red;"><b>S</b> => Stand</li>
+              <li style="color: #990000;"><b>S</b> => Stand</li>
               <li style="color: #81d41a;"><b>D</b> => Double Down</li>
             </ul>
             <img src="../assets/charts/hard-hands.png" alt="Hard hands chart"/>

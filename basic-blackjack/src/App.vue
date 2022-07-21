@@ -63,7 +63,7 @@
               <BootstrapIcon
                 icon="bar-chart-fill"
                 color="white"
-                size="1x"
+                size="lg"
               />  
           </button>
         </div>  
@@ -119,21 +119,21 @@ export default {
     deleteStats() {
       this.store.commit('clearCounts');
     }
-  },
-  computed: {
-    isActive() {
-      return this.$router.name === "random";
-    },
-  },
+  }
 }
 </script>
 
 <style lang="scss">
 
 .router-link-active > svg {
-  color: #e1e1e1;
+  // color: #e1e1e1;
+  color: $ultra-highlight-green;
   transition: all .5s;
-  //border-bottom: solid 3px white;
+}
+
+.router-link-active > img {
+  filter: invert(84%) sepia(6%) saturate(1069%) hue-rotate(135deg) brightness(94%) contrast(93%);
+  transition: all .5s;
 }
 
 .nav-buttons-mobile {

@@ -19,6 +19,10 @@ const routes = [
         name: 'split',
         path: '/split',
         component: SplitModeView,
+    },
+    {
+        path: '/:catchAll(.*)',
+        redirect: "/"
     }
 ]
 

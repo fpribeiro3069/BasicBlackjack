@@ -10,24 +10,28 @@ export function generateRandomCard() {
 }
 
 export function generateRandomHand() {
-    let hand = [];
+    let hand;
 
-    let suit = Math.floor(Math.random() * Card.suits.length);
-    let rank = Math.floor(Math.random() * Card.ranks.length);
-    const firstCard = new Card(Card.ranks[rank], Card.suits[suit]);
-    
-    suit = Math.floor(Math.random() * Card.suits.length);
-    rank = Math.floor(Math.random() * Card.ranks.length);
-    let secondCard = new Card(Card.ranks[rank], Card.suits[suit]);
-
-    while (firstCard.equals(secondCard)) {
+    do {
+        hand = [];
+        let suit = Math.floor(Math.random() * Card.suits.length);
+        let rank = Math.floor(Math.random() * Card.ranks.length);
+        const firstCard = new Card(Card.ranks[rank], Card.suits[suit]);
+        
         suit = Math.floor(Math.random() * Card.suits.length);
         rank = Math.floor(Math.random() * Card.ranks.length);
-        secondCard = new Card(Card.ranks[rank], Card.suits[suit]);
-    }
-    
-    hand.push(firstCard);
-    hand.push(secondCard);
+        let secondCard = new Card(Card.ranks[rank], Card.suits[suit]);
+
+        while (firstCard.equals(secondCard)) {
+            suit = Math.floor(Math.random() * Card.suits.length);
+            rank = Math.floor(Math.random() * Card.ranks.length);
+            secondCard = new Card(Card.ranks[rank], Card.suits[suit]);
+        }
+        
+        hand.push(firstCard);
+        hand.push(secondCard);
+
+    } while (checkPlayerBlackjack(hand))
 
     return hand;
 }
@@ -95,36 +99,25 @@ export function checkDecision(playerCards, dealerCard, decision) {
     // First check split decision
     if (playerCards[0].rank === playerCards[1].rank) {
         const splitDecision = checkSplitDecision(playerCards[0].rank, dealerCard);
-        if (splitDecision && decision === 'Split') {
-            // player made the right choice
-            return [true, 'Split'];
-        } else if (splitDecision && decision !== 'Split') {
-            return [false, 'Split'];
+
+        if (splitDecision) {
+            // The correct answer would be splitting
+            return [decision === 'Split', 'Split'];
         }
+        // If false, it means some other decision (Hit, Double or Stand) must be made
+        // so let the program run
     }
     // Second, check if soft hand decision
     if (playerCards[0].rank === 'Ace' || playerCards[1].rank === 'Ace') {
         const rightDecision = checkSoftDecision(playerCards, dealerCard);
-        if (rightDecision === decision) {
-            return [true, rightDecision];
-        } else {
-            return [false, rightDecision];
-        }
+
+        return [rightDecision === decision, rightDecision];
     } 
     // Finally, hard hands
-    let playerScore = 0;
-    for (let i=0; i < 2; i++) {
-        playerScore += playerCards[i].value();
-    }
+    let playerScore = playerCards[0].value() + playerCards[1].value();
 
     const hardDecision = checkHardDecision(playerScore, dealerCard);
-    if (hardDecision === decision) {
-        return [true, hardDecision];
-    } else {
-        return [false, hardDecision];
-    }
-
-    
+    return [hardDecision === decision, hardDecision];
 }
 
 function checkSplitDecision(playerRank, dealerCard) {

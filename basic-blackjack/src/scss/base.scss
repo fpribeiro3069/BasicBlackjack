@@ -27,6 +27,12 @@ html, body {
     user-select: none;
 }
 
+.blur {
+    color: transparent;
+    text-shadow: 0 0 20px white;
+    transition: all .5s ease-in-out;
+  }
+
 button, input[type="submit"], input[type="reset"] {
 	background: none;
 	color: inherit;
